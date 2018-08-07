@@ -12,6 +12,7 @@ import 'styles/border.css'
 import 'styles/iconfont.css'
 // 移动端click三百毫秒延迟解决
 import fastClick from 'fastclick'
+import store from './store'
 
 Vue.config.productionTip = false
 fastClick.attach(document.body)
@@ -21,6 +22,7 @@ Vue.use(VueAwesomeSwiper)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

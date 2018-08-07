@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="search">
-      <input v-model="keyword" class="search-input" type="text" placeholder="输入城市名或者拼音" />
+      <input v-model="keyword" class="search-input" type="text" placeholder="输入城市名或者拼音"/>
     </div>
     <div v-show="keyword" class="search-content" ref="search">
       <ul>
-        <li class="search-item border-bottom" v-for="item of list" :key="item.id">
+        <li class="search-item border-bottom" v-for="item of list" :key="item.id" @click="handleCityClick(item.name)">
           {{item.name}}
         </li>
         <li v-show="hasNoData" class="search-item border-bottom">
@@ -18,6 +18,8 @@
 
 <script>
 import Bscroll from 'better-scroll'
+import {mapMutations} from 'vuex'
+
 export default {
   name: 'CitySearch',
   props: {
@@ -38,6 +40,13 @@ export default {
       return !this.list.length
     }
   },
+  methods: {
+    handleCityClick (city) {
+      this.changeCity(city)
+      this.$router.push('/')
+    },
+    ...mapMutations(['changeCity'])
+  },
   watch: {
     keyword () {
       if (this.timer) {
@@ -52,7 +61,7 @@ export default {
         for (let i in this.cities) {
           this.cities[i].forEach((value) => {
             if (value.spell.indexOf(this.keyword) > -1 ||
-            value.name.indexOf(this.keyword) > -1) {
+              value.name.indexOf(this.keyword) > -1) {
               result.push(value)
             }
           })
@@ -65,32 +74,33 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  @import '~styles/varibles.styl'
-  .search
-    height: .72rem
+@import '~styles/varibles.styl'
+.search
+  height: .72rem
+  padding: 0 .1rem
+  background: $bgColor
+  .search-input
+    box-sizing: border-box
+    width: 100%
+    line-height: .62rem
     padding: 0 .1rem
-    background: $bgColor
-    .search-input
-      box-sizing: border-box
-      width: 100%
-      line-height: .62rem
-      padding: 0 .1rem
-      height: .62rem
-      border-radius: .06rem
-      text-align: center
-      color: #666
-  .search-content
-    z-index: 1
-    position: absolute
-    top: 1.58rem
-    left: 0
-    right: 0
-    bottom: 0
-    background: #eee
-    overflow: hidden
-    .search-item
-      line-height: .62rem
-      padding-left: .2rem
-      background: #fff
-      color: #666
+    height: .62rem
+    border-radius: .06rem
+    text-align: center
+    color: #666
+
+.search-content
+  z-index: 1
+  position: absolute
+  top: 1.58rem
+  left: 0
+  right: 0
+  bottom: 0
+  background: #eee
+  overflow: hidden
+  .search-item
+    line-height: .62rem
+    padding-left: .2rem
+    background: #fff
+    color: #666
 </style>
