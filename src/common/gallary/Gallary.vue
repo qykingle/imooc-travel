@@ -3,13 +3,10 @@
     <div class="wrapper">
       <swiper :options="swiperOptions">
         <!-- slides -->
-        <swiper-slide>
-          <img src="http://img1.qunarzz.com/sight/p0/1607/7c/7cda8b6782dabd80b4.img.jpg_600x330_8572a930.jpg"
-               class="gallary-img">
-        </swiper-slide>
-        <swiper-slide>
-          <img src="http://img1.qunarzz.com/sight/p0/1607/7c/7cda8b6782dabd80b4.img.jpg_600x330_8572a930.jpg"
-               class="gallary-img">
+        <swiper-slide v-for="(item, index) of imgs" :key="index">
+          <img :src="item"
+               class="gallary-img"
+          >
         </swiper-slide>
         <div class="swiper-pagination" slot="pagination"></div>
       </swiper>
@@ -20,6 +17,12 @@
 <script>
 export default {
   name: 'Gallary',
+  props: {
+    imgs: Array
+  },
+  mounted () {
+    // console.log(this.imgs)
+  },
   data () {
     return {
       swiperOptions: {
